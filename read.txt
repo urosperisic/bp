@@ -1,0 +1,57 @@
+from accounts.models import CustomUser
+
+for user in CustomUser.objects.all():
+    print(user.username, "-", user.role)
+
+----------
+
+users = CustomUser.objects.filter(role="user")
+for u in users:
+    print(u.username, u.email)
+
+----------
+
+admins = CustomUser.objects.filter(role="admin")
+for a in admins:
+    print(a.username)
+
+----------
+
+users = CustomUser.objects.exclude(role="admin")
+for u in users:
+    print(u.username, u.role)
+
+----------
+
+users = CustomUser.objects.filter(username__startswith="a")
+for u in users:
+    print(u.username, u.role)
+
+
+----------
+
+users = CustomUser.objects.filter(email__icontains="@gmail.com")
+for u in users:
+    print(u.username, u.email)
+
+----------
+
+users = CustomUser.objects.all().order_by("username")
+for u in users:
+    print(u.username)
+
+----------
+
+from django.db.models import Count
+
+role_counts = CustomUser.objects.values("role").annotate(count=Count("id"))
+for rc in role_counts:
+    print(rc["role"], "-", rc["count"])
+
+----------
+
+users = CustomUser.objects.values("username", "email")
+for u in users:
+    print(u["username"], u["email"])
+
+----------
