@@ -18,13 +18,49 @@ export default function CodeBlock({ code, language }) {
   };
 
   const customTheme = {
-    'code[class*="language-"]': { color: '#111827' },
-    'pre[class*="language-"]': { color: '#111827' },
-    'keyword': { color: '#4338ca' },
-    'string': { color: '#0b7853' },
-    'comment': { color: '#111827', fontStyle: 'italic' },
-    'function': { color: '#a22525' },
-    'number': { color: '#111827' },
+    'code[class*="language-"]': {
+      color: '#111827',
+      fontWeight: '500',
+    },
+
+    'pre[class*="language-"]': {
+      color: '#111827',
+      background: 'transparent',
+    },
+
+    keyword: {
+      color: '#4338ca',
+      fontWeight: '700',
+    },
+
+    string: {
+      color: '#007020',
+      fontWeight: '500',
+    },
+
+    function: {
+      color: '#a22525',
+      fontWeight: '600',
+    },
+
+    number: {
+      color: '#111827',
+      fontWeight: '600',
+    },
+
+    comment: {
+      color: '#606775',
+      fontStyle: 'italic',
+    },
+
+    operator: {
+      color: '#111827',
+      fontWeight: '700',
+    },
+
+    punctuation: {
+      color: '#111827',
+    },
   };
 
   return (
@@ -47,6 +83,8 @@ export default function CodeBlock({ code, language }) {
             margin: 0,
             padding: 0,
             background: 'transparent',
+            fontFamily: 'JetBrains Mono, monospace',
+            fontWeight: 500,
           }}
         >
           {code}

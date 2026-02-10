@@ -18,12 +18,9 @@
   --c-border: #e5e7eb;
   --c-border-dark: #d1d5db;
   
-  --c-success: #0b7853;
+  --c-success: #007020;
   --c-error: #a22525;
   --c-warning: #805a1a;
-  
-  --c-code-bg: #1e293b;
-  --c-code-text: #e2e8f0;
   
   /* Spacing */
   --space-xs: 0.4rem;
@@ -65,7 +62,7 @@ html {
 body {
   font-family: 'Inter', sans-serif;
   font-size: 1.4rem;
-  line-height: 1.6;
+  line-height: 1.4;
   color: var(--c-text);
   background-color: var(--c-bg);
   min-height: 100vh;
@@ -409,7 +406,7 @@ code {
 }
 
 .block-text {
-  line-height: 1.6;
+  line-height: 1.4;
   color: var(--c-text);
   white-space: pre-wrap;
   word-wrap: break-word;
@@ -433,9 +430,15 @@ code {
 .code-block {
   position: relative;
   background: var(--c-primary-light);
-  border-radius: var(--border-radius);
+  border-radius: 12px;
   max-width: 100%;
   overflow: hidden;
+
+  border: 1px solid var(--c-border);
+
+  box-shadow:
+    0 10px 20px rgba(79, 70, 229, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 .code-header {
@@ -443,30 +446,35 @@ code {
   justify-content: space-between;
   align-items: center;
   padding: var(--space-sm) var(--space-md);
-  border-bottom: 1px solid var(--c-text);
+
+  border-bottom: 1px solid var(--c-border);
+  background: rgba(255, 255, 255, 0.5);
 }
 
 .code-language {
   font-size: 1.2rem;
-  color: var(--c-text);
-  opacity: 0.7;
+  letter-spacing: 0.05em;
+  color: var(--c-text-secondary);
   text-transform: uppercase;
   font-weight: 600;
 }
 
 .code-copy-btn {
-  padding: 0.4rem 0.8rem;
-  font-size: 1.2rem;
-  background: rgba(255, 255, 255, 0.7);
-  /* color: var(--c-code-text); */
-  border: none;
-  border-radius: var(--border-radius-sm);
+  padding: 0.35rem 0.6rem;
+  font-size: 1rem;
+  font-weight: 600;
+
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--c-border);
+  border-radius: 6px;
+
   cursor: pointer;
-  transition: background var(--transition);
+  transition: background var(--transition), border var(--transition);
 }
 
 .code-copy-btn:hover {
-  background: rgba(255, 255, 255, 1);
+  background: #fff;
+  border-color: var(--c-border-dark);
 }
 
 .code-content {
@@ -476,9 +484,8 @@ code {
 
 .code-content pre {
   margin: 0;
-  color: var(--c-code-text);
-  font-size: 1.3rem !important;
-  line-height: 1.6;
+  font-size: 0.95rem !important;
+  line-height: 1.65;
 }
 
 /* ============= Auth Pages ============= */

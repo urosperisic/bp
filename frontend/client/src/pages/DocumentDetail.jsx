@@ -101,7 +101,7 @@ export default function DocumentDetail() {
               <span className="loading"></span>
             ) : (
               <>
-                {document.is_liked ? '💙 Liked' : '🩵 Like'}
+                {document.is_liked ? '🤍  Liked' : '🩵 Like'}
               </>
             )}
           </button>
