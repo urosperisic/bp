@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+// import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 export default function CodeBlock({ code, language }) {
   const [copied, setCopied] = useState(false);
@@ -15,6 +15,16 @@ export default function CodeBlock({ code, language }) {
     } catch (error) {
       console.error('Failed to copy:', error);
     }
+  };
+
+  const customTheme = {
+    'code[class*="language-"]': { color: '#111827' },
+    'pre[class*="language-"]': { color: '#111827' },
+    'keyword': { color: '#4338ca' },
+    'string': { color: '#0b7853' },
+    'comment': { color: '#111827', fontStyle: 'italic' },
+    'function': { color: '#a22525' },
+    'number': { color: '#111827' },
   };
 
   return (
@@ -32,7 +42,7 @@ export default function CodeBlock({ code, language }) {
       <div className="code-content">
         <SyntaxHighlighter
           language={language}
-          style={vscDarkPlus}
+          style={customTheme}
           customStyle={{
             margin: 0,
             padding: 0,

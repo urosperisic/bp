@@ -104,7 +104,7 @@ export default function AdminDashboard() {
                     <h2 className="mb-sm">{doc.title}</h2>
                     <div className="flex items-center gap-lg text-muted" style={{ fontSize: '1.4rem' }}>
                       <span>By {doc.author_username}</span>
-                      <span>❤️ {doc.likes_count}</span>
+                      <span>💙 {doc.likes_count}</span>
                       <span className={doc.is_published ? 'text-success' : 'text-error'}>
                         {doc.is_published ? '✓ Published' : '✗ Draft'}
                       </span>
@@ -116,7 +116,7 @@ export default function AdminDashboard() {
                       to={`/admin/docs/${doc.slug}/edit`}
                       className="btn btn-sm btn-secondary"
                     >
-                      ✏️ Edit
+                      🖊️ Edit
                     </Link>
                     
                     <button

@@ -103,6 +103,7 @@ pnpm-debug.log*
 staticfiles/
 
 frontend/static/
+static/frontend/
 
 media/
 

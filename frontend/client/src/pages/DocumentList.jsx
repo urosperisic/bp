@@ -68,7 +68,7 @@ export default function DocumentList() {
               <h3 className="mb-sm">{doc.title}</h3>
               <div className="flex items-center gap-lg text-muted" style={{ fontSize: '1.4rem' }}>
                 <span>By {doc.author_username}</span>
-                <span>❤️ {doc.likes_count}</span>
+                <span>💙 {doc.likes_count}</span>
               </div>
             </Link>
           ))}

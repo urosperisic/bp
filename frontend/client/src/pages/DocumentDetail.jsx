@@ -88,7 +88,7 @@ export default function DocumentDetail() {
         <div className="document-meta">
           <span>By {document.author_username}</span>
           <span>{new Date(document.created_at).toLocaleDateString()}</span>
-          <span>❤️ {document.likes_count}</span>
+          <span>💙 {document.likes_count}</span>
         </div>
 
         <div className="document-actions">
@@ -101,7 +101,7 @@ export default function DocumentDetail() {
               <span className="loading"></span>
             ) : (
               <>
-                {document.is_liked ? '❤️ Liked' : '🤍 Like'}
+                {document.is_liked ? '💙 Liked' : '🩵 Like'}
               </>
             )}
           </button>
@@ -111,7 +111,7 @@ export default function DocumentDetail() {
               to={`/admin/docs/${document.slug}/edit`}
               className="btn btn-secondary"
             >
-              ✏️ Edit
+              🖊️ Edit
             </Link>
           )}
         </div>

@@ -76,7 +76,7 @@ export default function Sidebar({ isOpen, onClose }) {
                   >
                     {doc.title}
                     <span className="text-muted" style={{ fontSize: '1.2rem', marginLeft: '0.8rem' }}>
-                      ❤️ {doc.likes_count}
+                      💙 {doc.likes_count}
                     </span>
                   </Link>
                 </li>
