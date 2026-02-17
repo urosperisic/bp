@@ -13,14 +13,12 @@ from django.contrib.auth import get_user_model
 from django_ratelimit.decorators import ratelimit
 from django.views.decorators.csrf import ensure_csrf_cookie
 
-from .utils import get_client_ip
-
 User = get_user_model()
 
 
 @api_view(["POST"])
 @permission_classes([AllowAny])
-@ratelimit(key=get_client_ip, rate="5/m", method="POST")
+@ratelimit(key='header:x-forwarded-for', rate="5/m", method="POST")
 def register_view(request):
     if getattr(request, 'limited', False):
         return Response(
@@ -61,7 +59,7 @@ def register_view(request):
 
 @api_view(["POST"])
 @permission_classes([AllowAny])
-@ratelimit(key=get_client_ip, rate="5/m", method="POST")
+@ratelimit(key='header:x-forwarded-for', rate="5/m", method="POST")
 def login_view(request):
     if getattr(request, 'limited', False):
         return Response(
