@@ -177,4 +177,11 @@ USE_X_FORWARDED_HOST = True
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
-RATELIMIT_VIEW = "accounts.views.get_client_ip"
+def get_real_ip(request):
+    """Extract real client IP from nginx X-Forwarded-For header"""
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        return x_forwarded_for.split(',')[0].strip()
+    return request.META.get('REMOTE_ADDR', '127.0.0.1')
+
+RATELIMIT_VIEW = 'config.settings.get_real_ip'
