@@ -18,7 +18,7 @@ User = get_user_model()
 
 @api_view(["POST"])
 @permission_classes([AllowAny])
-@ratelimit(key="ip", rate="5/m", method="POST")
+@ratelimit(key='accounts.utils.get_client_ip', rate="5/m", method="POST")
 def register_view(request):
     if getattr(request, 'limited', False):
         return Response(
@@ -59,7 +59,7 @@ def register_view(request):
 
 @api_view(["POST"])
 @permission_classes([AllowAny])
-@ratelimit(key="ip", rate="5/m", method="POST")
+@ratelimit(key='accounts.utils.get_client_ip', rate="5/m", method="POST")
 def login_view(request):
     if getattr(request, 'limited', False):
         return Response(
