@@ -10,7 +10,7 @@ from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 from django.contrib.auth import authenticate
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django_ratelimit.decorators import ratelimit
+# from django_ratelimit.decorators import ratelimit
 from django.views.decorators.csrf import ensure_csrf_cookie
 
 User = get_user_model()
@@ -18,7 +18,7 @@ User = get_user_model()
 
 @api_view(["POST"])
 @permission_classes([AllowAny])
-@ratelimit(key='config.settings.get_real_ip', rate="5/m", method="POST")
+# @ratelimit(key='config.settings.get_real_ip', rate="5/m", method="POST")
 def register_view(request):
     if getattr(request, "limited", False):
         return Response(
@@ -59,7 +59,7 @@ def register_view(request):
 
 @api_view(["POST"])
 @permission_classes([AllowAny])
-@ratelimit(key='config.settings.get_real_ip', rate="5/m", method="POST")
+# @ratelimit(key='config.settings.get_real_ip', rate="5/m", method="POST")
 def login_view(request):
     if getattr(request, "limited", False):
         return Response(

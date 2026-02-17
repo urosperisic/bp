@@ -169,19 +169,19 @@ CSRF_TRUSTED_ORIGINS = [
 
 CORS_ALLOW_CREDENTIALS = True
 
-RATELIMIT_USE_CACHE = "default"
+# RATELIMIT_USE_CACHE = "default"
 
-RATELIMIT_ENABLE = True
+# RATELIMIT_ENABLE = True
 
 USE_X_FORWARDED_HOST = True
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
-def get_real_ip(request):
-    """Extract real client IP from nginx X-Forwarded-For header"""
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        return x_forwarded_for.split(',')[0].strip()
-    return request.META.get('REMOTE_ADDR', '127.0.0.1')
+# def get_real_ip(request):
+#     """Extract real client IP from nginx X-Forwarded-For header"""
+#     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+#     if x_forwarded_for:
+#         return x_forwarded_for.split(',')[0].strip()
+#     return request.META.get('REMOTE_ADDR', '127.0.0.1')
 
-RATELIMIT_VIEW = 'config.settings.get_real_ip'
+# RATELIMIT_VIEW = 'config.settings.get_real_ip'
