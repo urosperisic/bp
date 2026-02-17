@@ -18,9 +18,9 @@ User = get_user_model()
 
 @api_view(["POST"])
 @permission_classes([AllowAny])
-@ratelimit(key='header:x-forwarded-for', rate="5/m", method="POST")
+@ratelimit(key="ip", rate="5/m", method="POST")
 def register_view(request):
-    if getattr(request, 'limited', False):
+    if getattr(request, "limited", False):
         return Response(
             {"error": "Too many requests"}, status=status.HTTP_429_TOO_MANY_REQUESTS
         )
@@ -59,9 +59,9 @@ def register_view(request):
 
 @api_view(["POST"])
 @permission_classes([AllowAny])
-@ratelimit(key='header:x-forwarded-for', rate="5/m", method="POST")
+@ratelimit(key="ip", rate="5/m", method="POST")
 def login_view(request):
-    if getattr(request, 'limited', False):
+    if getattr(request, "limited", False):
         return Response(
             {"error": "Too many requests"}, status=status.HTTP_429_TOO_MANY_REQUESTS
         )
