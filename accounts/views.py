@@ -11,6 +11,7 @@ from django.contrib.auth import authenticate
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django_ratelimit.decorators import ratelimit
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 User = get_user_model()
 
@@ -121,6 +122,7 @@ def logout_view(request):
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
+@ensure_csrf_cookie
 def me_view(request):
     user = request.user
     return Response(
