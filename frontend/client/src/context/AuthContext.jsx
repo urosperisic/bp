@@ -22,24 +22,24 @@ export function AuthProvider({ children }) {
   }, []);
 
   const checkAuth = async () => {
-    try {
-      const response = await apiRequest('/api/auth/me/', {
-        method: 'GET',
-      });
-      
-      if (response && response.ok) {
-        const data = await response.json();
-        setUser(data);
-      } else {
-        setUser(null);
-      }
-    } catch (error) {
-      console.error('Auth check failed:', error);
+  try {
+    const response = await fetch('/api/auth/me/', {
+      credentials: 'include',
+    });
+    
+    if (response.ok) {
+      const data = await response.json();
+      setUser(data);
+    } else {
       setUser(null);
-    } finally {
-      setLoading(false);
     }
-  };
+  } catch (error) {
+    console.error('Auth check failed:', error);
+    setUser(null);
+  } finally {
+    setLoading(false);
+  }
+};
 
   const login = async (username, password) => {
     try {
