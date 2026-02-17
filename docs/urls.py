@@ -24,4 +24,8 @@ urlpatterns = [
         "documents/<int:document_pk>/blocks/reorder/",
         DocumentBlockViewSet.as_view({"patch": "reorder"}),
     ),
+    path(
+        "documents/<int:document_pk>/blocks/bulk/",
+        DocumentBlockViewSet.as_view({"post": "bulk_update"}),
+    ),
 ]
