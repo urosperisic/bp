@@ -1,7 +1,8 @@
-// frontend/client/src/pages/admin/AdminDocumentEdit.jsx
+// src/pages/admin/AdminDocumentEdit.jsx
 
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { apiRequest } from '../../utils/api';
 
 export default function AdminDocumentEdit() {
   const { slug } = useParams();
@@ -22,11 +23,11 @@ export default function AdminDocumentEdit() {
 
   const fetchDocument = async () => {
     try {
-      const response = await fetch(`/api/docs/documents/${slug}/`, {
-        credentials: 'include',
+      const response = await apiRequest(`/api/docs/documents/${slug}/`, {
+        method: 'GET',
       });
       
-      if (response.ok) {
+      if (response && response.ok) {
         const data = await response.json();
         setTitle(data.title);
         setIsPublished(data.is_published);
@@ -48,53 +49,32 @@ export default function AdminDocumentEdit() {
     setSaving(true);
 
     try {
-      // Save document
-      const docResponse = await fetch(
+      const docResponse = await apiRequest(
         isNew ? '/api/docs/documents/' : `/api/docs/documents/${slug}/`,
         {
           method: isNew ? 'POST' : 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
           body: JSON.stringify({ title, is_published: isPublished }),
         }
       );
 
-      if (!docResponse.ok) {
+      if (!docResponse || !docResponse.ok) {
         throw new Error('Failed to save document');
       }
 
       const docData = await docResponse.json();
       const docId = docData.id;
 
-      // Delete old blocks if editing
-      if (!isNew) {
-        const oldBlocks = await fetch(`/api/docs/documents/${docId}/blocks/`, {
-          credentials: 'include',
-        }).then(r => r.json());
+      const blocksPayload = blocks.map((block, index) => ({
+        block_type: block.block_type,
+        content: block.content,
+        language: block.language || '',
+        order: index,
+      }));
 
-        for (const block of oldBlocks) {
-          await fetch(`/api/docs/documents/${docId}/blocks/${block.id}/`, {
-            method: 'DELETE',
-            credentials: 'include',
-          });
-        }
-      }
-
-      // Save new blocks
-      for (let i = 0; i < blocks.length; i++) {
-        const block = blocks[i];
-        await fetch(`/api/docs/documents/${docId}/blocks/`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify({
-            block_type: block.block_type,
-            content: block.content,
-            language: block.language || '',
-            order: i,
-          }),
-        });
-      }
+      await apiRequest(`/api/docs/documents/${docId}/blocks/bulk/`, {
+        method: 'POST',
+        body: JSON.stringify({ blocks: blocksPayload }),
+      });
 
       navigate('/admin');
     } catch (error) {

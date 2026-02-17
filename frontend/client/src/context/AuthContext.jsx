@@ -1,6 +1,7 @@
-// frontend/client/src/context/AuthContext.jsx
+// src/context/AuthContext.jsx
 
 import { createContext, useContext, useState, useEffect } from 'react';
+import { apiRequest } from '../utils/api';
 
 const AuthContext = createContext();
 
@@ -16,18 +17,17 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Check if user is authenticated on mount
   useEffect(() => {
     checkAuth();
   }, []);
 
   const checkAuth = async () => {
     try {
-      const response = await fetch('/api/auth/me/', {
-        credentials: 'include',
+      const response = await apiRequest('/api/auth/me/', {
+        method: 'GET',
       });
       
-      if (response.ok) {
+      if (response && response.ok) {
         const data = await response.json();
         setUser(data);
       } else {
@@ -43,18 +43,14 @@ export function AuthProvider({ children }) {
 
   const login = async (username, password) => {
     try {
-      const response = await fetch('/api/auth/login/', {
+      const response = await apiRequest('/api/auth/login/', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
         body: JSON.stringify({ username, password }),
       });
 
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Login failed');
+      if (!response || !response.ok) {
+        const error = await response?.json();
+        throw new Error(error?.error || 'Login failed');
       }
 
       const data = await response.json();
@@ -67,21 +63,16 @@ export function AuthProvider({ children }) {
 
   const register = async (username, email, password) => {
     try {
-      const response = await fetch('/api/auth/register/', {
+      const response = await apiRequest('/api/auth/register/', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify({ username, email, password }),
       });
 
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Registration failed');
+      if (!response || !response.ok) {
+        const error = await response?.json();
+        throw new Error(error?.error || 'Registration failed');
       }
 
-      const data = await response.json();
-      // Auto login after register
       return await login(username, password);
     } catch (error) {
       return { success: false, error: error.message };
@@ -90,9 +81,8 @@ export function AuthProvider({ children }) {
 
   const logout = async () => {
     try {
-      await fetch('/api/auth/logout/', {
+      await apiRequest('/api/auth/logout/', {
         method: 'POST',
-        credentials: 'include',
       });
       setUser(null);
     } catch (error) {

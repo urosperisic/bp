@@ -1,8 +1,9 @@
-// frontend/client/src/pages/DocumentDetail.jsx
+// src/pages/DocumentDetail.jsx
 
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { apiRequest } from '../utils/api';
 import CodeBlock from '../components/CodeBlock';
 
 export default function DocumentDetail() {
@@ -19,11 +20,11 @@ export default function DocumentDetail() {
 
   const fetchDocument = async () => {
     try {
-      const response = await fetch(`/api/docs/documents/${slug}/`, {
-        credentials: 'include',
+      const response = await apiRequest(`/api/docs/documents/${slug}/`, {
+        method: 'GET',
       });
       
-      if (response.ok) {
+      if (response && response.ok) {
         const data = await response.json();
         setDocument(data);
       } else {
@@ -42,13 +43,11 @@ export default function DocumentDetail() {
     
     setLiking(true);
     try {
-      const response = await fetch(`/api/docs/documents/${document.slug}/like/`, { 
+      const response = await apiRequest(`/api/docs/documents/${document.slug}/like/`, { 
         method: 'POST',
-        credentials: 'include',
       });
 
-      if (response.ok) {
-        // Refresh document to get updated like count
+      if (response && response.ok) {
         await fetchDocument();
         window.dispatchEvent(new Event('documentsUpdated'));
       }
@@ -101,7 +100,7 @@ export default function DocumentDetail() {
               <span className="loading"></span>
             ) : (
               <>
-                {document.is_liked ? '🤍  Liked' : '🩵 Like'}
+                {document.is_liked ? '🤍 Liked' : '🩵 Like'}
               </>
             )}
           </button>

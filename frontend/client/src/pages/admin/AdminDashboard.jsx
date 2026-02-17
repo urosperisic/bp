@@ -1,7 +1,8 @@
-// frontend/client/src/pages/admin/AdminDashboard.jsx
+// src/pages/admin/AdminDashboard.jsx
 
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { apiRequest } from '../../utils/api';
 
 export default function AdminDashboard() {
   const [documents, setDocuments] = useState([]);
@@ -13,11 +14,11 @@ export default function AdminDashboard() {
 
   const fetchDocuments = async () => {
     try {
-      const response = await fetch('/api/docs/documents/', {
-        credentials: 'include',
+      const response = await apiRequest('/api/docs/documents/', {
+        method: 'GET',
       });
       
-      if (response.ok) {
+      if (response && response.ok) {
         const data = await response.json();
         setDocuments(data);
       }
@@ -34,12 +35,11 @@ export default function AdminDashboard() {
     }
 
     try {
-      const response = await fetch(`/api/docs/documents/${slug}/`, {
+      const response = await apiRequest(`/api/docs/documents/${slug}/`, {
         method: 'DELETE',
-        credentials: 'include',
       });
 
-      if (response.ok) {
+      if (response && response.ok) {
         setDocuments(documents.filter(doc => doc.slug !== slug));
       } else {
         alert('Failed to delete document');
@@ -52,16 +52,12 @@ export default function AdminDashboard() {
 
   const handleTogglePublish = async (slug, currentStatus) => {
     try {
-      const response = await fetch(`/api/docs/documents/${slug}/`, {
+      const response = await apiRequest(`/api/docs/documents/${slug}/`, {
         method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
         body: JSON.stringify({ is_published: !currentStatus }),
       });
 
-      if (response.ok) {
+      if (response && response.ok) {
         setDocuments(documents.map(doc => 
           doc.slug === slug ? { ...doc, is_published: !currentStatus } : doc
         ));

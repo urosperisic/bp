@@ -1,7 +1,13 @@
 # accounts/urls.py
 
 from django.urls import path
-from .views import register_view, login_view, logout_view, me_view
+from .views import (
+    register_view,
+    login_view,
+    logout_view,
+    me_view,
+    CookieTokenRefreshView,
+)
 
 app_name = "accounts"
 
@@ -10,4 +16,5 @@ urlpatterns = [
     path("login/", login_view, name="login"),
     path("logout/", logout_view, name="logout"),
     path("me/", me_view, name="me"),
+    path("refresh/", CookieTokenRefreshView.as_view(), name="refresh"),
 ]

@@ -77,3 +77,25 @@ class DocumentBlockViewSet(viewsets.ModelViewSet):
         for item in items:
             DocumentBlock.objects.filter(id=item["id"]).update(order=item["order"])
         return Response({"status": "reordered"}, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=["post"], url_path="bulk")
+    def bulk_update(self, request, document_pk=None):
+        document = get_object_or_404(Document, pk=document_pk)
+        blocks_data = request.data.get("blocks", [])
+
+        DocumentBlock.objects.filter(document=document).delete()
+
+        blocks_to_create = [
+            DocumentBlock(
+                document=document,
+                block_type=block["block_type"],
+                content=block["content"],
+                language=block.get("language", ""),
+                order=block["order"],
+            )
+            for block in blocks_data
+        ]
+
+        DocumentBlock.objects.bulk_create(blocks_to_create)
+
+        return Response({"status": "updated"}, status=status.HTTP_200_OK)

@@ -1,7 +1,8 @@
-// frontend/client/src/components/Sidebar.jsx
+// src/components/Sidebar.jsx
 
 import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { apiRequest } from '../utils/api';
 
 export default function Sidebar({ isOpen, onClose }) {
   const [documents, setDocuments] = useState([]);
@@ -17,11 +18,11 @@ export default function Sidebar({ isOpen, onClose }) {
 
   const fetchDocuments = async () => {
     try {
-      const response = await fetch('/api/docs/documents/', {
-        credentials: 'include',
+      const response = await apiRequest('/api/docs/documents/', {
+        method: 'GET',
       });
       
-      if (response.ok) {
+      if (response && response.ok) {
         const data = await response.json();
         setDocuments(data);
       }
