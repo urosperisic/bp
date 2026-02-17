@@ -5,6 +5,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { apiRequest } from '../utils/api';
 import CodeBlock from '../components/CodeBlock';
+import DOMPurify from 'dompurify';
 
 export default function DocumentDetail() {
   const { slug } = useParams();
@@ -123,7 +124,13 @@ export default function DocumentDetail() {
               {block.block_type === 'text' ? (
                 <div 
                   className="block-text"
-                  dangerouslySetInnerHTML={{ __html: block.content }}
+                  dangerouslySetInnerHTML={{ 
+                    __html: DOMPurify.sanitize(block.content, {
+                      ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'a', 'blockquote', 'code', 'pre'],
+                      ALLOWED_ATTR: ['href', 'target'],
+                      ALLOW_DATA_ATTR: false
+                    })
+                  }}
                 />
               ) : (
                 <CodeBlock

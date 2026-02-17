@@ -20,6 +20,11 @@ User = get_user_model()
 @permission_classes([AllowAny])
 @ratelimit(key="ip", rate="5/m", method="POST")
 def register_view(request):
+    if getattr(request, 'limited', False):
+        return Response(
+            {"error": "Too many requests"}, status=status.HTTP_429_TOO_MANY_REQUESTS
+        )
+
     username = request.data.get("username")
     email = request.data.get("email")
     password = request.data.get("password")
@@ -56,6 +61,11 @@ def register_view(request):
 @permission_classes([AllowAny])
 @ratelimit(key="ip", rate="5/m", method="POST")
 def login_view(request):
+    if getattr(request, 'limited', False):
+        return Response(
+            {"error": "Too many requests"}, status=status.HTTP_429_TOO_MANY_REQUESTS
+        )
+
     username = request.data.get("username")
     password = request.data.get("password")
 
